@@ -1,5 +1,5 @@
 const router = require('express').Router(); 
-const User = require('../../models/User');
+const { User, Thought } = require('../../models');
 
 router.route('/').get((req, res) => {
     User.find({})
@@ -9,6 +9,7 @@ router.route('/').get((req, res) => {
     .populate({
         path: 'friends',
     })
+    .select('-__v')
     .then(dbUserData => res.json(dbUserData))
     .catch(err => {
         console.log(err);
@@ -23,16 +24,12 @@ router.route('/').get((req, res) => {
 
 router.route('/:id').get((req, res) => {
     User.findOne({ _id: req.params.id })
-    .populate(
-        {
-            path: 'friends',
-            select: '-__v'
-        },
-        {
-            path: 'thoughts',
-            select: '-__v'
-        }
-    )
+    .populate({
+        path: 'thoughts',
+    })
+    .populate({
+        path: 'friends',
+    })
     .select('-__v')
     .then(dbUserData => {
         if (!dbUserData) {
@@ -47,7 +44,7 @@ router.route('/:id').get((req, res) => {
     })
 })
 .put((req, res) => {
-    User.findOneAndUpdate({ _id: req.params.id }, body, { new: true})
+    User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true})
     .then(dbUser => {
         if (!dbUser) {
             res.status(404).json({ message: 'No user with this id' })
