@@ -66,4 +66,34 @@ router.route('/:id').get((req, res) => {
     .catch(err => res.status(400).json(err));
 })
 
+router.route('/:userId/friends/:friendId').post((req, res) => {
+   User.findOneAndUpdate(
+    { _id: req.params.userId },
+    { $push: { friends: req.params.friendId }},
+    { new: true }
+    )
+    .then(dbUser => {
+        if (!dbUser) {
+            res.status(404).json({ message: 'No user with this id' })
+        }
+        res.json(dbUser);
+    })
+    .catch(err => res.json(err))
+})
+.delete((req, res) => {
+    User.findOneAndUpdate(
+        { _id: req.params.userId },
+        { $pull: { friends: req.params.friendId }},
+        { new: true }
+        )
+        .then(dbUser => {
+            if (!dbUser) {
+                res.status(404).json({ message: 'No user with this id' })
+            }
+            res.json(dbUser);
+        })
+        .catch(err => res.json(err))
+})
+
+
 module.exports = router; 
