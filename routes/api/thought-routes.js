@@ -26,19 +26,6 @@ router.route('/').get((req, res) => {
     .catch(err => res.json(err));
 })
 
-// router.route('/:userId').post((req, res) => {
-//     Thought.create(req.body)
-//     .then(({ _id }) => {
-//         return User.findOneAndUpdate(
-//             { _id: req.params.userId },
-//             { $push: { thoughts: _id }},
-//             { new: true }
-//         )
-//     })
-//     .then(dbThought => res.json(dbThought))
-//     .catch(err => res.json(err));
-// })
-
 router.route('/:id').get((req, res) => {
     Thought.findOne({ _id: req.params.id })
     .then(dbThought => {
