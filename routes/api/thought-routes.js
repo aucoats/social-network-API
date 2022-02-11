@@ -89,7 +89,7 @@ router.route('/:id').get((req, res) => {
 router.route('/:thoughtId/reactions').post((req, res) => {
     Thought.findOneAndUpdate(
         { _id: req.params.thoughtId }, 
-        { $push: { reactions: body }},
+        { $push: { reactions: req.body }},
         { new: true }
     )
     .then(dbThought => {
@@ -99,6 +99,15 @@ router.route('/:thoughtId/reactions').post((req, res) => {
         }
         res.json(dbThought);
     })
+    .catch(err => res.json(err));
+})
+.delete((req, res) => {
+    Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        { $pull: { reactions: { reactionId: req.body.reactionId }}},
+        { new: true }
+    )
+    .then(dbThought => res.json(dbThought))
     .catch(err => res.json(err));
 })
 
