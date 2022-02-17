@@ -12,4 +12,4 @@ Invoke `npm install` to install all required npm packages. If installed successf
 ## Deployed 
 ![Gif of functional API calls through Insomnia](./assets/deployed.gif)
 
-[Walkthrough video with sound](https://github.com/aucoats/social-network-API)
+[Walkthrough video with sound](https://drive.google.com/file/d/1s2VDk-q_g3T8opqQBjTKk8aa2exB51U3/view)
