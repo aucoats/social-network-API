@@ -30,14 +30,14 @@ router.route('/:id').get((req, res) => {
     Thought.findOne({ _id: req.params.id })
     .then(dbThought => {
         if (!dbThought) {
-            res.json(404).json({ message: 'No thought with this id' })
+            res.json({ message: 'No thought with this id' })
             return;
         }
-        res.json(dbThought);
+        res.json(dbThought)
     })
     .catch(err => {
         console.log(err);
-        res.json(400).json(err);
+        res.status(400).json(err);
     })
 })
 .put((req, res) => {
